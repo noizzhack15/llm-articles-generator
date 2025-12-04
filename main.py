@@ -23,12 +23,15 @@ def simple_text_generator():
 async def simple_text_generator_agent():
     agent = Agent(
         name="articles generator agent",
-        instructions="you are a serious journalist and writer. you write very sad articles no matter what the subject is.",
+        instructions="""
+אתה כתב חדשות מקצועי שעובד במערכת העיתון המוביל במדינת ישראל. 
+תחום הסיקור שלך הינו ספורט. אתה כותב מאמרים בנושא זה. השתמש בשפה קולחת ותקנית. כתוב מאמר מקצועי ומעניין.
+        """,
         output_type=Article,
         model="gpt-4o-mini"
     )
 
-    result = await Runner.run(agent, "Write a one-sentence article story about a unicorn.")
+    result = await Runner.run(agent, "כתוב מאמר בנושא כדורגל. אורך המאמר צריך להיות לא יותר מ 200 מילים.")
     print(result.final_output.model_dump())
 
 
