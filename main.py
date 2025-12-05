@@ -8,10 +8,6 @@ from dtos.article import Article
 
 load_dotenv()
 
-rabbitmq_data = {
-
-}
-
 exchange = None
 
 
@@ -35,9 +31,7 @@ async def send_article_to_queue(article: Article):
     await init_rabbitmq()
     # The framework internally calls this tool if the agent successfully outputs the Article object
     print("\n--- Tool Execution: send_article_to_queue ---")
-    print(f"Article Title: {article.title}")
-    print(f"Article Summary: {article.summary}")
-    print(f"Article Content: {article.final_output}")
+    print(f"Article:\n {article.model_dump()}")
     print("Sending article object to queue successful.")
     print("------------------------------------------\n")
 
@@ -63,7 +57,7 @@ async def run_simple_text_generator_agent():
          use send_article_to_queue to send an article object to a queue.
          you must use that tool
          """,
-        model="gpt-4o-mini",
+        model="gpt-4.1-mini",
         handoff_description="send article object to a queue",
         tools=[send_article_to_queue]
     )
@@ -77,13 +71,13 @@ async def run_simple_text_generator_agent():
         name="articles generator agent",
         instructions=articles_generator_agent_prompt,
         output_type=Article,
-        model="gpt-4o-mini",
+        model="gpt-4.1-mini",
         handoffs=[articles_queue_sender_agent]
     )
 
     result = await Runner.run(
         articles_generator_agent,
-        "write a short news article about soccer - no longer than 50 words"
+        "write a short news article about soccer - no longer than 50 words. Be as specific as possible. Include places, people and events."
     )
 
 

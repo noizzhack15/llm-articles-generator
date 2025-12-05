@@ -10,4 +10,5 @@ class Article(BaseModel):
     final_output: str = Field(description="The complete, polished body of the article.")
     article_field: str = Field(description="the field of the article.")
     article_subdomain: str = Field(description="the subdomain of the article.")
-    country: str = Field(description="The country of the article.")
+    places: list[str] = Field(
+        description="a list of places of the world this article applies to. This can be countries, cities, etc.")
