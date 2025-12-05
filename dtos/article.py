@@ -2,7 +2,9 @@ from pydantic import BaseModel, Field
 
 
 class Article(BaseModel):
-    reason: str = Field(description="Your reasoning for why this search is important to the query.")
-    article_title: str
-    article_body: str
-    article_subject: str
+    """
+    Data Transfer Object for a generated article.
+    """
+    title: str = Field(description="The professional title of the article.")
+    summary: str = Field(description="A brief, 1-2 sentence summary of the article content.")
+    final_output: str = Field(description="The complete, polished body of the article.")
