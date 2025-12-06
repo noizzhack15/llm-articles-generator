@@ -7,7 +7,7 @@ class Article(BaseModel):
     """
     title: str = Field(description="The professional title of the article.")
     summary: str = Field(description="A brief, 1-2 sentence summary of the article content.")
-    final_output: str = Field(description="The complete, polished body of the article.")
+    article_body: str = Field(description="The complete, polished body of the article.")
     article_field: str = Field(description="the field of the article.")
     article_subdomain: str = Field(description="the subdomain of the article.")
     places: list[str] = Field(
