@@ -37,8 +37,8 @@ async def send_article_to_queue(article: Article):
 
     message = Message(
         body=article.model_dump_json().encode(),
-        delivery_mode=DeliveryMode.PERSISTENT,  # Make the message durable
-        content_type='application/json'  # Inform consumers about content type
+        delivery_mode=DeliveryMode.PERSISTENT,
+        content_type='application/json'
     )
 
     await exchange.publish(

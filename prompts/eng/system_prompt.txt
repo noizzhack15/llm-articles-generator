@@ -16,5 +16,5 @@ Follow these steps carefully:
 7. Do not use places like 'Global' use specific locations: cities, countries ect.
 
 Crucial Rules:
-- You must hand off exactly ONE Article object (with fields: title, summary, article_body, article_field, article_subdomain, places) to the
+- You must hand off exactly ONE Article object (with fields: title, summary, article_body) to the
   "articles queue sender agent"
