@@ -1,13 +1,15 @@
 import asyncio
+import uuid
 
 from agents import Agent, Runner, function_tool
 from aio_pika import connect_robust, Message, DeliveryMode
 from dotenv import load_dotenv
+from faker import Faker
 
 from dtos.article import Article
 
 load_dotenv()
-
+faker = Faker()
 exchange = None
 
 
@@ -28,6 +30,10 @@ async def send_article_to_queue(article: Article):
     """
     send an article object to a queue
     """
+    article.article_id = str(uuid.uuid4())
+    article.author = faker.name()
+    article.destination = faker.name()
+
     await init_rabbitmq()
     # The framework internally calls this tool if the agent successfully outputs the Article object
     print("\n--- Tool Execution: send_article_to_queue ---")
