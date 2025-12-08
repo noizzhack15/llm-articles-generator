@@ -107,11 +107,22 @@ async def run_simple_text_generator_agent():
         handoffs=[articles_queue_sender_agent]
     )
 
-    result = await Runner.run(
-        articles_generator_agent,
-        f"write a short news article about {issue_topic} - no longer than 20 words. Be as specific as possible. Include places, people and events."
-    )
+    try:        
+        result = await Runner.run(
+            articles_generator_agent,
+            f"generate a news article about {issue_topic} (≤100 words) and output it as an Article object (article_id, title, summary, article_body, author, destination). Be as specific as possible. Include places, people and events."
+        )
+        print(f"Final Result:\n{result}")
+    except Exception as e:
+        print(f"Error running article generator: {e}")
 
 
 if __name__ == '__main__':
-    asyncio.run(run_simple_text_generator_agent())
+    async def main():
+        for i in range(10):
+            print(f"\n{'='*50}")
+            print(f"Running iteration {i+1}/10")
+            print(f"{'='*50}\n")
+            await run_simple_text_generator_agent()
+    
+    asyncio.run(main())
