@@ -1,6 +1,8 @@
 import asyncio
 import os
 import uuid
+import random
+import glob
 
 from agents import Agent, Runner, function_tool
 from aio_pika import connect_robust, Message, DeliveryMode
@@ -57,6 +59,24 @@ async def send_article_to_queue(article: Article):
 
 
 async def run_simple_text_generator_agent():
+    # Define issues array with category mapping
+    issues = [
+        {"issue": "Foreign Policy", "category": "political"},
+        {"issue": "Internal security", "category": "political"},
+        {"issue": "Trade agreements", "category": "political"},
+        {"issue": "tennis", "category": "sport"},
+        {"issue": "soccer", "category": "sport"},
+        {"issue": "Artificial intelligence", "category": "technology"},
+        {"issue": "cellular devices", "category": "technology"}
+    ]
+    
+    # Select a random issue
+    selected_issue = random.choice(issues)
+    issue_topic = selected_issue["issue"]
+    issue_category = selected_issue["category"]
+    
+    print(f"Selected issue: {issue_topic} (Category: {issue_category})")
+    
     articles_queue_sender_agent = Agent(
         name="articles queue sender agent",
         instructions="""
@@ -69,10 +89,15 @@ async def run_simple_text_generator_agent():
         tools=[send_article_to_queue]
     )
 
-    with open(
-            "c:/code_projects/breaking-bed/llm-articles-generator/prompts/eng/system_prompt.txt", 'r',
-            encoding='utf-8') as file:
-        articles_generator_agent_prompt = file.read()
+    # Load the matching prompt file based on the issue category
+    prompt_file = f"prompts/eng/system_prompt_{issue_category}.txt"
+    try:
+        with open(prompt_file, 'r', encoding='utf-8') as file:
+            articles_generator_agent_prompt = file.read()
+        print(f"Using prompt file: {prompt_file}")
+    except FileNotFoundError:
+        print(f"Prompt file not found: {prompt_file}, using default")
+        articles_generator_agent_prompt = "You are a news article generator."
 
     articles_generator_agent = Agent(
         name="articles generator agent",
@@ -84,7 +109,7 @@ async def run_simple_text_generator_agent():
 
     result = await Runner.run(
         articles_generator_agent,
-        "write a short news article about soccer - no longer than 50 words. Be as specific as possible. Include places, people and events."
+        f"write a short news article about {issue_topic} - no longer than 20 words. Be as specific as possible. Include places, people and events."
     )
 
 
