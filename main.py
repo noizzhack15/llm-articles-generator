@@ -36,7 +36,6 @@ async def send_article_to_queue(article: Article):
     article.source = faker.name()
     article.publisher = faker.name()
     article.publication_date = datetime.datetime.now()
-    
     article.recipients = []
     article.recipients.append(article.source)
 
@@ -55,7 +54,7 @@ async def send_article_to_queue(article: Article):
 
     await exchange.publish(
         message,
-        routing_key="rfeed"
+        routing_key="test"
     )
 
     return "Article successfully sent to the queue."
