@@ -1,4 +1,5 @@
 import asyncio
+import os
 import uuid
 
 from agents import Agent, Runner, function_tool
@@ -17,10 +18,10 @@ async def init_rabbitmq():
     global exchange
 
     if exchange is None:
-        connection = await connect_robust("amqp://guest:guest@localhost/breaking_bed")
+        connection = await connect_robust(os.environ["RABBITMQ_URL"])
         channel = await connection.channel()
         exchange = await channel.declare_exchange(
-            "breaking_bed",
+            "breaking_ex",
             type="topic",
             durable=True)
 
@@ -49,7 +50,7 @@ async def send_article_to_queue(article: Article):
 
     await exchange.publish(
         message,
-        routing_key="test"
+        routing_key="rfeed"
     )
 
     return "Article successfully sent to the queue."
