@@ -37,7 +37,7 @@ async def send_article_to_queue(article: Article):
     article.publisher = faker.name()
     article.publication_date = datetime.datetime.now()
     article.recipients = []
-    article.recipients.append(article.source)
+    article.recipients.append(faker.name())
 
     await init_rabbitmq()
     # The framework internally calls this tool if the agent successfully outputs the Article object
