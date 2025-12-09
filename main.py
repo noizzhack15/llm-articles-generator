@@ -69,7 +69,7 @@ async def run_simple_text_generator_agent():
     )
 
     with open(
-            "c:/code_projects/breaking-bed/llm-articles-generator/prompts/eng/system_prompt.txt", 'r',
+            "C:/Users/User/projects/llm-articles-generator/prompts/eng/system_prompt.txt", 'r',
             encoding='utf-8') as file:
         articles_generator_agent_prompt = file.read()
 
