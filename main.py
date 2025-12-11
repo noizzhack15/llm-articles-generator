@@ -54,7 +54,7 @@ async def send_article_to_queue(article: Article):
 
     await exchange.publish(
         message,
-        routing_key="test"
+        routing_key="rfeed"
     )
 
     return "Article successfully sent to the queue."
@@ -88,6 +88,7 @@ async def run_simple_text_generator_agent():
 
     result = await Runner.run(
         articles_generator_agent,
+        # "write a short news article about cancer - no longer than 50 words. Be as specific as possible. Include places, people and events."
         "write a short news article about soccer - no longer than 50 words. Be as specific as possible. Include places, people and events."
     )
 
