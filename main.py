@@ -36,7 +36,7 @@ async def send_article_to_queue(article: Article):
     """
     article.article_id = str(uuid.uuid4())
     article.source = faker.name()
-    article.publisher = faker.name()
+    article.publisher = faker.company()
     article.publication_date = datetime.datetime.now()
     optional_recipients = ['הומר','מארג\'','בארט','ליסא מארי,', 'מגי','סנובול 1', ' סנובול 2']
     
