@@ -133,9 +133,9 @@ async def run_simple_text_generator_agent():
 
 if __name__ == '__main__':
     async def main():
-        for i in range(10):
+        for i in range(100):
             print(f"\n{'='*50}")
-            print(f"Running iteration {i+1}/10")
+            print(f"Running iteration {i+1}/100")
             print(f"{'='*50}\n")
             await run_simple_text_generator_agent()
     
