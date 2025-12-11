@@ -73,13 +73,15 @@ async def send_article_to_queue(article: Article):
 async def run_simple_text_generator_agent():
     # Define issues array with category mapping
     issues = [
-        {"issue": "Foreign Policy", "category": "political"},
-        {"issue": "Internal security", "category": "political"},
-        {"issue": "Trade agreements", "category": "political"},
-        {"issue": "tennis", "category": "sport"},
-        {"issue": "soccer", "category": "sport"},
-        {"issue": "Artificial intelligence", "category": "technology"},
-        {"issue": "cellular devices", "category": "technology"}
+         {"issue": "Foreign Policy", "category": "political"},
+         {"issue": "Internal security", "category": "political"},
+         {"issue": "Trade agreements", "category": "political"},
+         {"issue": "tennis", "category": "sport"},
+         {"issue": "soccer", "category": "sport"},
+         {"issue": "Artificial intelligence", "category": "technology"},
+         {"issue": "cellular devices", "category": "technology"},
+        {"issue": "Medical Examinations", "category": "health"},
+        {"issue": "Mental Health", "category": "health"},
     ]
     
     # Select a random issue
