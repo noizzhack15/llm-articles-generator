@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import os
 import uuid
 
@@ -32,8 +33,11 @@ async def send_article_to_queue(article: Article):
     send an article object to a queue
     """
     article.article_id = str(uuid.uuid4())
-    article.author = faker.name()
-    article.destination = faker.name()
+    article.source = faker.name()
+    article.publisher = faker.name()
+    article.publication_date = datetime.datetime.now()
+    article.recipients = []
+    article.recipients.append(faker.name())
 
     await init_rabbitmq()
     # The framework internally calls this tool if the agent successfully outputs the Article object
@@ -60,10 +64,10 @@ async def run_simple_text_generator_agent():
     articles_queue_sender_agent = Agent(
         name="articles queue sender agent",
         instructions="""
-         articles queue sender agent. you receive an article object and send it to a destination queue.
-         use send_article_to_queue to send an article object to a queue.
-         you must use that tool
-         """,
+             articles queue sender agent. **You have received an Article object**.
+             Your only task is to use the `send_article_to_queue` tool to send this article object to a queue.
+             You MUST use the `send_article_to_queue` tool.
+             """,
         model="gpt-4.1-mini",
         handoff_description="send article object to a queue",
         tools=[send_article_to_queue]
@@ -84,8 +88,11 @@ async def run_simple_text_generator_agent():
 
     result = await Runner.run(
         articles_generator_agent,
+        # "write a short news article about cancer - no longer than 50 words. Be as specific as possible. Include places, people and events."
         "write a short news article about soccer - no longer than 50 words. Be as specific as possible. Include places, people and events."
     )
+
+    print(result)
 
 
 if __name__ == '__main__':
